@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>Welcome to Java EE 6!</h1>
+		<p>You have successfully deployed a Java EE 6 web application.</p>
+		<p>
+			<a4j:outputPanel ajaxRendered="true">
+				<rich:messages globalOnly="true" />
+			</a4j:outputPanel>
+		</p>
+
+		<rich:popupPanel id="statePanel" autosized="true">
+			<h:graphicImage value="/images/icons/ai.gif" alt="ai" />
+	        Please wait...
+	    </rich:popupPanel>
+
+		<rich:popupPanel id="popup" modal="true" resizeable="true" onmaskclick="#{rich:component('popup')}.hide()" width="500"
+			header="#{empty memberRegistration.member.id? 'Add' : 'Edit'} Member (Bean Validation example)">
+			<f:facet name="controls">
+				<h:outputLink value="#" id="closeControl">
+					<h:graphicImage value="/images/icons/close.png" styleClass="hidelink" />
+					<rich:componentControl event="click" target="popup" operation="hide" />
+				</h:outputLink>
+			</f:facet>
+			<h:form id="editForm">
+				<p class="comment">Client and server validation through annotation-based constraints defined on the model class.</p>
+				<h:panelGrid id="editGrid" columns="3" columnClasses="formLabel">
+					<h:outputLabel for="id" value="ID:" rendered="#{not empty memberRegistration.member.id}" />
+					<h:inputText id="id" value="#{member.id}" rendered="#{not empty memberRegistration.member.id}" disabled="true" />
+					<h:outputLabel value="" rendered="#{not empty memberRegistration.member.id}" />
+					<h:outputLabel for="name" value="Name:" />
+					<h:inputText id="name" value="#{member.name}">
+						<rich:validator />
+					</h:inputText>
+					<rich:message for="name" />
+					<h:outputLabel for="email" value="Email:" />
+					<h:inputText id="email" value="#{member.email}">
+						<rich:validator />
+					</h:inputText>
+					<rich:message for="email" />
+					<h:outputLabel for="phoneNumber" value="Phone #:" />
+					<h:inputText id="phoneNumber" value="#{member.phoneNumber}">
+						<rich:validator />
+					</h:inputText>
+					<rich:message for="phoneNumber" />
+					<h:outputLabel value="" />
+					<a4j:commandButton id="register" action="#{memberRegistration.save}"
+						value="#{empty memberRegistration.member.id? 'Register' : 'Update'}" render="membersPanel,editForm"
+						oncomplete="if (#{facesContext.maximumSeverity!=null}) #{rich:component('popup')}.close()">
+					</a4j:commandButton>
+				</h:panelGrid>
+			</h:form>
+		</rich:popupPanel>
+		<rich:panel id="membersPanel" header="Members">
+			<rich:toolbar height="26" itemSeparator="grid">
+				<rich:toolbarGroup>
+					<a4j:commandLink action="#{memberRegistration.initNewMember}" render="editForm"
+						oncomplete="#{rich:component('popup')}.show()">
+						<h:graphicImage value="/images/icons/user_add.png" styleClass="pic" alt="Add Member" />
+					</a4j:commandLink>
+				</rich:toolbarGroup>
+				<rich:toolbarGroup location="right">
+					<h:inputText styleClass="barsearch" />
+					<h:commandButton styleClass="barsearchbutton" onclick="return false;" value="Search" />
+				</rich:toolbarGroup>
+			</rich:toolbar>
+			<h:form id="membersTableForm">
+				<rich:dataTable var="item" value="#{memberRegistration.model}" rowClasses="odd-row, even-row"
+					noDataLabel="No registered members.">
+					<h:column>
+						<f:facet name="header">Id</f:facet>
+						<h:outputText value="#{item.id}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Name</f:facet>
+						<h:outputText value="#{item.name}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Email</f:facet>
+						<h:outputText value="#{item.email}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Phone #</f:facet>
+						<h:outputText value="#{item.phoneNumber}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">REST URL</f:facet>
+						<a target="_blank" href="#{request.contextPath}/rest/members/#{item.id}">/rest/members/#{item.id}</a>
+					</h:column>
+					<h:column>
+						<a4j:commandLink action="#{memberRegistration.delete}" render="membersPanel">
+							<h:graphicImage value="/images/icons/user_delete.png" alt="delete" />
+						</a4j:commandLink>
+					</h:column>
+					<h:column>
+						<a4j:commandLink action="#{memberRegistration.edit}" render="editGrid"
+							oncomplete="#{rich:component('popup')}.show()">
+							<h:graphicImage value="/images/icons/user_edit.png" alt="edit" />
+						</a4j:commandLink>
+					</h:column>
+					<f:facet name="footer">
+						<h:outputText value="REST URL for all members:" />
+						<a target="_blank" href="#{request.contextPath}/rest/members">/rest/members</a>
+					</f:facet>
+				</rich:dataTable>
+			</h:form>
+		</rich:panel>
+		<a4j:outputPanel ajaxRendered="true">
+			<h:panelGrid columns="2" styleClass="comment small">
+				<h:outputText value="Last updated:" />
+				<h:outputText value="#{memberRegistration.lastUpdated}" />
+			</h:panelGrid>
+		</a4j:outputPanel>
+	</ui:define>
+</ui:composition>

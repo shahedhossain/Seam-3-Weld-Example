@@ -1,0 +1,94 @@
+body {
+   margin: 0;
+   padding: 0;
+   background-color: #EAECEE;
+   font-family: 'Lucida Grande',Geneva,Verdana,Arial,sans-serif;
+   font-size: 0.9em;
+}
+
+table {
+	width: 100%;
+}
+
+#container {
+   margin: 0 auto;
+   padding: 0 20px 10px 20px;
+   border: 1px solid #666666;
+   width: 865px; /* subtract 40px from banner width for padding */
+   background: #FFFFFF url(#{request.contextPath}/resources/gfx/banner.png) no-repeat;
+   padding-top: 110px;
+}
+
+#content{
+	float: left;
+	width: 70%;
+}
+
+#sidebar {
+   font-size: 0.9em;
+   width: 25%;
+   float: right;
+   margin: 15px 0 15px;
+   padding: 15px;
+}
+#sidebar ul {
+   padding-left: 30px;
+}
+#footer {
+   clear: both;
+   text-align: center;
+   color: #666666;
+   font-size: 0.85em;
+   padding: 3em 0 0 0;
+}
+code {
+   font-size: 1.1em;
+}
+span.invalid {
+   padding-left: 3px;
+   color: red;
+}
+
+.comment{
+	font-style: italic;
+	color: gray;
+}
+
+.small{
+	font-size: 70%;
+}
+
+.formLabel{
+	font-weight: bold;
+}
+
+.contentRight{
+	text-align: right;
+}
+
+.contentLeft{
+	text-align: left;
+}
+
+.even-row {
+    background-color: #ECF3FE;
+}
+ 
+.odd-row {
+    background-color: #FCFFFE;
+}
+ 
+.active-row {
+    background-color: #FFEBDA !important;
+    cursor: pointer;
+}
+
+/* *****  RichFaces Support ***** */
+.rf-p{
+	margin-bottom: 10px;
+}
+
+/* Toolbar */
+.rf-tb .rf-tb-itm img{
+	cursor: pointer;
+}
